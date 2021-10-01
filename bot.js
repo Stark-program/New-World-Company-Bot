@@ -5,6 +5,7 @@ const client = new Discord.Client({
 const fs = require("fs");
 require("dotenv").config();
 const token = process.env.BOT_TOKEN;
+var port = process.env.PORT || 8080;
 
 client.commands = new Discord.Collection();
 const prefix = "!";
