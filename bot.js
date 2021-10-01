@@ -5,7 +5,22 @@ const client = new Discord.Client({
 const fs = require("fs");
 require("dotenv").config();
 const token = process.env.BOT_TOKEN;
-var port = process.env.PORT || 8080;
+/*---To get around heroku PORT error ---*/
+var express = require("express");
+var app = express();
+app.set("port", process.env.PORT || 5000);
+app
+  .get("/", function (request, response) {
+    var result = "App is running";
+    response.send(result);
+  })
+  .listen(app.get("port"), function () {
+    console.log(
+      "App is running, server is listening on port ",
+      app.get("port")
+    );
+  });
+/*--- For getting around Heroku PORt error ---*/
 
 client.commands = new Discord.Collection();
 const prefix = "!";
