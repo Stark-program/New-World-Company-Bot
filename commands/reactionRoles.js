@@ -15,7 +15,7 @@ module.exports = {
       (role) => role.name === "Rapier"
     );
     const hatchet = message.guild.roles.cache.find(
-      (role) => role.name === "Hatcher"
+      (role) => role.name === "Hatchet"
     );
     const spear = message.guild.roles.cache.find(
       (role) => role.name === "Spear"
@@ -92,53 +92,43 @@ module.exports = {
           await reaction.message.guild.members.cache
             .get(user.id)
             .roles.add(swordAndShield);
-        }
-        if (reaction.emoji.name === rapierEmoji) {
+        } else if (reaction.emoji.name === rapierEmoji) {
           await reaction.message.guild.members.cache
             .get(user.id)
             .roles.add(rapier);
-        }
-        if (reaction.emoji.name === hatchetEmoji) {
+        } else if (reaction.emoji.name === hatchetEmoji) {
           await reaction.message.guild.members.cache
             .get(user.id)
             .roles.add(hatchet);
-        }
-        if (reaction.emoji.name === spearEmoji) {
+        } else if (reaction.emoji.name === spearEmoji) {
           await reaction.message.guild.members.cache
             .get(user.id)
             .roles.add(spear);
-        }
-        if (reaction.emoji.name === greatAxeEmoji) {
+        } else if (reaction.emoji.name === greatAxeEmoji) {
           await reaction.message.guild.members.cache
             .get(user.id)
             .roles.add(greatAxe);
-        }
-        if (reaction.emoji.name === warHammerEmoji) {
+        } else if (reaction.emoji.name === warHammerEmoji) {
           await reaction.message.guild.members.cache
             .get(user.id)
             .roles.add(warHammer);
-        }
-        if (reaction.emoji.name === bowEmoji) {
+        } else if (reaction.emoji.name === bowEmoji) {
           await reaction.message.guild.members.cache
             .get(user.id)
             .roles.add(bow);
-        }
-        if (reaction.emoji.name === musketEmoji) {
+        } else if (reaction.emoji.name === musketEmoji) {
           await reaction.message.guild.members.cache
             .get(user.id)
             .roles.add(musket);
-        }
-        if (reaction.emoji.name === fireStaffEmoji) {
+        } else if (reaction.emoji.name === fireStaffEmoji) {
           await reaction.message.guild.members.cache
             .get(user.id)
             .roles.add(fireStaff);
-        }
-        if (reaction.emoji.name === lifeStaffEmoji) {
+        } else if (reaction.emoji.name === lifeStaffEmoji) {
           await reaction.message.guild.members.cache
             .get(user.id)
             .roles.add(lifeStaff);
-        }
-        if (reaction.emoji.name === iceGauntletEmoji) {
+        } else if (reaction.emoji.name === iceGauntletEmoji) {
           await reaction.message.guild.members.cache
             .get(user.id)
             .roles.add(iceGauntlet);
@@ -157,6 +147,46 @@ module.exports = {
           await reaction.message.guild.members.cache
             .get(user.id)
             .roles.remove(swordAndShield);
+        } else if (reaction.emoji.name === rapierEmoji) {
+          await reaction.message.guild.members.cache
+            .get(user.id)
+            .roles.remove(rapier);
+        } else if (reaction.emoji.name === hatchetEmoji) {
+          await reaction.message.guild.members.cache
+            .get(user.id)
+            .roles.remove(hatchet);
+        } else if (reaction.emoji.name === spearEmoji) {
+          await reaction.message.guild.members.cache
+            .get(user.id)
+            .roles.remove(spear);
+        } else if (reaction.emoji.name === greatAxeEmoji) {
+          await reaction.message.guild.members.cache
+            .get(user.id)
+            .roles.remove(greatAxe);
+        } else if (reaction.emoji.name === warHammerEmoji) {
+          await reaction.message.guild.members.cache
+            .get(user.id)
+            .roles.remove(warHammer);
+        } else if (reaction.emoji.name === bowEmoji) {
+          await reaction.message.guild.members.cache
+            .get(user.id)
+            .roles.remove(bow);
+        } else if (reaction.emoji.name === musketEmoji) {
+          await reaction.message.guild.members.cache
+            .get(user.id)
+            .roles.remove(musket);
+        } else if (reaction.emoji.name === fireStaffEmoji) {
+          await reaction.message.guild.members.cache
+            .get(user.id)
+            .roles.remove(fireStaff);
+        } else if (reaction.emoji.name === lifeStaffEmoji) {
+          await reaction.message.guild.members.cache
+            .get(user.id)
+            .roles.remove(lifeStaff);
+        } else if (reaction.emoji.name === iceGauntletEmoji) {
+          await reaction.message.guild.members.cache
+            .get(user.id)
+            .roles.remove(iceGauntlet);
         }
       } else return;
     });
