@@ -1,44 +1,7 @@
-const { DiscordAPIError } = require("discord.js");
-
-require("dotenv").config();
-
 module.exports = {
   name: "reactionRoles",
   description: "this command will assign weapon roles to the users",
   async execute(message, args, Discord, client) {
-    const channel = process.env.WEAPON_CHANNEL_ID;
-
-    const swordAndShield = message.guild.roles.cache.find(
-      (role) => role.name === "Sword and Shield"
-    );
-    const rapier = message.guild.roles.cache.find(
-      (role) => role.name === "Rapier"
-    );
-    const hatchet = message.guild.roles.cache.find(
-      (role) => role.name === "Hatchet"
-    );
-    const spear = message.guild.roles.cache.find(
-      (role) => role.name === "Spear"
-    );
-    const greatAxe = message.guild.roles.cache.find(
-      (role) => role.name === "Great Axe"
-    );
-    const warHammer = message.guild.roles.cache.find(
-      (role) => role.name === "War Hammer"
-    );
-    const bow = message.guild.roles.cache.find((role) => role.name === "Bow");
-    const musket = message.guild.roles.cache.find(
-      (role) => role.name === "Musket"
-    );
-    const fireStaff = message.guild.roles.cache.find(
-      (role) => role.name === "Fire Staff"
-    );
-    const lifeStaff = message.guild.roles.cache.find(
-      (role) => role.name === "Life Staff"
-    );
-    const iceGauntlet = message.guild.roles.cache.find(
-      (role) => role.name === "Ice Gauntlet"
-    );
     const swordAndShieldEmoji = "🛡️";
     const rapierEmoji = "🗡️";
     const hatchetEmoji = "🪓";
@@ -80,6 +43,46 @@ module.exports = {
     messageEmbed.react(fireStaffEmoji);
     messageEmbed.react(lifeStaffEmoji);
     messageEmbed.react(iceGauntletEmoji);
+  },
+  async reactionListener(message, client) {
+    const swordAndShieldEmoji = "🛡️";
+    const rapierEmoji = "🗡️";
+    const hatchetEmoji = "🪓";
+    const spearEmoji = "🥢";
+    const greatAxeEmoji = "🐵";
+    const warHammerEmoji = "🤤";
+    const bowEmoji = "🏹";
+    const musketEmoji = "🔫";
+    const fireStaffEmoji = "🔥";
+    const lifeStaffEmoji = "❤️";
+    const iceGauntletEmoji = "🧊";
+
+    const channel = process.env.WEAPON_CHANNEL_ID;
+    const guild = client.guilds.cache.get(`${process.env.GUILD_ID}`);
+
+    const swordAndShield = guild.roles.cache.find(
+      (role) => role.name === "Sword and Shield"
+    );
+    const rapier = guild.roles.cache.find((role) => role.name === "Rapier");
+    const hatchet = guild.roles.cache.find((role) => role.name === "Hatchet");
+    const spear = guild.roles.cache.find((role) => role.name === "Spear");
+    const greatAxe = guild.roles.cache.find(
+      (role) => role.name === "Great Axe"
+    );
+    const warHammer = guild.roles.cache.find(
+      (role) => role.name === "War Hammer"
+    );
+    const bow = guild.roles.cache.find((role) => role.name === "Bow");
+    const musket = guild.roles.cache.find((role) => role.name === "Musket");
+    const fireStaff = guild.roles.cache.find(
+      (role) => role.name === "Fire Staff"
+    );
+    const lifeStaff = guild.roles.cache.find(
+      (role) => role.name === "Life Staff"
+    );
+    const iceGauntlet = guild.roles.cache.find(
+      (role) => role.name === "Ice Gauntlet"
+    );
 
     client.on("messageReactionAdd", async (reaction, user) => {
       if (reaction.message.partial) await reaction.message.fetch();
