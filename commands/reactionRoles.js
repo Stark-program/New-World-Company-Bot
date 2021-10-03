@@ -1,12 +1,8 @@
-const { DiscordAPIError } = require("discord.js");
-
-require("dotenv").config();
-
 module.exports = {
   name: "reactionRoles",
   description: "this command will assign weapon roles to the users",
   async execute(message, args, Discord, client) {
-    const channel = process.env.WEAPON_CHANNEL_ID;
+    const channel = process.env.DEV_TEXT_CHANNEL;
 
     const swordAndShield = message.guild.roles.cache.find(
       (role) => role.name === "Sword and Shield"

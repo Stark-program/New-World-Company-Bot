@@ -1,10 +1,12 @@
+require("dotenv").config();
+const reactionRoles = require("./commands/reactionRoles");
+const skillSelection = require("./commands/skillSelection");
 const Discord = require("discord.js");
 const client = new Discord.Client({
   partials: ["MESSAGE", "REACTION", "CHANNEL"],
 });
 const fs = require("fs");
-require("dotenv").config();
-const token = process.env.BOT_TOKEN;
+const token = process.env.DEV_TOKEN;
 /*---To get around heroku PORT error ---*/
 var express = require("express");
 var app = express();
@@ -21,33 +23,21 @@ app
     );
   });
 /*--- For getting around Heroku PORt error ---*/
-
-client.commands = new Discord.Collection();
 const prefix = "!";
-
-const commandFiles = fs
-  .readdirSync("./commands/")
-  .filter((file) => file.endsWith(".js"));
-
-for (const file of commandFiles) {
-  const command = require(`./commands/${file}`);
-
-  client.commands.set(command.name, command);
-}
-
-client.once("ready", () => {
-  console.log("Ready!");
-});
 
 client.on("message", (message) => {
   if (!message.content.startsWith(prefix) || message.author.bot) return;
   const args = message.content.slice(prefix.length).split(/ +/);
   const command = args.shift().toLowerCase();
   if (command === "reaction-roles") {
-    client.commands
-      .get("reactionRoles")
-      .execute(message, args, Discord, client);
+    reactionRoles.execute(message, args, Discord, client);
+  }
+  if (command === "trade-skill-selection") {
+    skillSelection.execute(message, args, Discord, client);
   }
 });
-
+client.once("ready", (message) => {
+  skillSelection.reactionListener(message, client);
+  console.log("Ready!");
+});
 client.login(token);
