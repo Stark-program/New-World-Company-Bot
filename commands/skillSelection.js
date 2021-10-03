@@ -3,7 +3,7 @@ module.exports = {
   description: "this command will assign trade skill roles to the users",
   async execute(message, args, Discord) {
     const weaponsmithingEmoji = "⚔️";
-    const armoringEmoji = "🛡️";
+    const armoringEmoji = "🔨";
     const engineeringEmoji = "🦾";
     const jewelcraftingEmoji = "💠";
     const arcanaEmoji = "✨";
@@ -47,8 +47,8 @@ module.exports = {
     messageEmbed.react(weavingEmoji);
   },
   async reactionListener(message, client) {
-    const guild = client.guilds.cache.get("893556623400910909");
-    const channel = process.env.DEV_TEXT_CHANNEL;
+    const guild = client.guilds.cache.get(`${process.env.GUILD_ID}`);
+    const channel = process.env.SKILL_CHANNEL_ID;
     const weaponSmithing = guild.roles.cache.find(
       (role) => role.name === "Weaponsmithing"
     );
@@ -76,7 +76,7 @@ module.exports = {
       (role) => role.name === "Woodworking"
     );
     const weaponsmithingEmoji = "⚔️";
-    const armoringEmoji = "🛡️";
+    const armoringEmoji = "🔨";
     const engineeringEmoji = "🦾";
     const jewelcraftingEmoji = "💠";
     const arcanaEmoji = "✨";

@@ -6,7 +6,7 @@ const client = new Discord.Client({
   partials: ["MESSAGE", "REACTION", "CHANNEL"],
 });
 const fs = require("fs");
-const token = process.env.DEV_TOKEN;
+const token = process.env.BOT_TOKEN;
 /*---To get around heroku PORT error ---*/
 var express = require("express");
 var app = express();
@@ -38,6 +38,7 @@ client.on("message", (message) => {
 });
 client.once("ready", (message) => {
   skillSelection.reactionListener(message, client);
+  reactionRoles.reactionListener(message, client);
   console.log("Ready!");
 });
 client.login(token);
