@@ -1,6 +1,7 @@
 require("dotenv").config();
 const reactionRoles = require("./commands/reactionRoles");
 const skillSelection = require("./commands/skillSelection");
+const donationReceipt = require("./commands/donationReceipt");
 const Discord = require("discord.js");
 const client = new Discord.Client({
   partials: ["MESSAGE", "REACTION", "CHANNEL"],
