@@ -26,8 +26,21 @@ const connectDB = async () => {
 };
 const db = mongoose.connection;
 
-app.post("/users", (req, res) => {
-  console.log(req);
+app.post("/donations", async (req, res) => {
+  let user = req.body.name;
+  let id = req.body.discordId;
+  let donation = req.body.donationAmount;
+
+  let userDonation = new donationSchema({
+    name: user,
+    discordId: id,
+    donationAmount: donation,
+  });
+
+  await userDonation.save((err, user) => {
+    if (err) console.log(err);
+    else res.status(201).send("Donation received!");
+  });
 });
 
 connectDB();

@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const users = "users";
 const userSchema = new Schema({
   name: String,
-  id: Number,
+  discordId: Number,
   totalDonated: Number,
 });
 
