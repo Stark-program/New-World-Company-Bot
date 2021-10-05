@@ -57,8 +57,8 @@ module.exports = {
     const lifeStaffEmoji = "❤️";
     const iceGauntletEmoji = "🧊";
 
-    const channel = process.env.WEAPON_CHANNEL_ID;
-    const guild = client.guilds.cache.get(`${process.env.GUILD_ID}`);
+    const channel = process.env.DEV_TEXT_WEAPON_CHANNEL;
+    const guild = client.guilds.cache.get(`${process.env.DEV_GUILD_ID}`);
 
     const swordAndShield = guild.roles.cache.find(
       (role) => role.name === "Sword and Shield"

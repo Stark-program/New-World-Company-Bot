@@ -6,8 +6,8 @@ const Discord = require("discord.js");
 const client = new Discord.Client({
   partials: ["MESSAGE", "REACTION", "CHANNEL"],
 });
-const fs = require("fs");
-const token = process.env.BOT_TOKEN;
+
+const token = process.env.DEV_TOKEN;
 /*---To get around heroku PORT error ---*/
 var express = require("express");
 var app = express();
@@ -35,6 +35,9 @@ client.on("message", (message) => {
   }
   if (command === "trade-skill-selection") {
     skillSelection.execute(message, args, Discord, client);
+  }
+  if (command === "donation") {
+    donationReceipt.execute(message, args, Discord, client);
   }
 });
 client.once("ready", (message) => {

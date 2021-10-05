@@ -47,8 +47,8 @@ module.exports = {
     messageEmbed.react(weavingEmoji);
   },
   async reactionListener(message, client) {
-    const guild = client.guilds.cache.get(`${process.env.GUILD_ID}`);
-    const channel = process.env.SKILL_CHANNEL_ID;
+    const guild = client.guilds.cache.get(`${process.env.DEV_GUILD_ID}`);
+    const channel = process.env.DEV_TEXT_CHANNEL;
     const weaponSmithing = guild.roles.cache.find(
       (role) => role.name === "Weaponsmithing"
     );
