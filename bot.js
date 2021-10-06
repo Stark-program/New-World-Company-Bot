@@ -2,6 +2,7 @@ require("dotenv").config();
 const reactionRoles = require("./commands/reactionRoles");
 const skillSelection = require("./commands/skillSelection");
 const donationReceipt = require("./commands/donationReceipt");
+const connectToDatabase = require("./server");
 const Discord = require("discord.js");
 const client = new Discord.Client({
   partials: ["MESSAGE", "REACTION", "CHANNEL"],
@@ -43,6 +44,7 @@ client.on("message", (message) => {
 client.once("ready", (message) => {
   skillSelection.reactionListener(message, client);
   reactionRoles.reactionListener(message, client);
+  connectToDatabase();
   console.log("Ready!");
 });
 client.login(token);

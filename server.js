@@ -12,7 +12,7 @@ const uri = `mongodb+srv://Cstark:${mongodbPassword}@cluster0.jylys.mongodb.net/
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 
-const connectDB = async () => {
+module.exports = connectDB = async () => {
   try {
     await mongoose.connect(uri, {
       useNewUrlParser: true,
@@ -39,9 +39,13 @@ app.post("/donations", async (req, res) => {
 
   await userDonation.save((err, user) => {
     if (err) console.log(err);
-    else res.status(201).send("Donation received!");
+    else
+      res.status(201).send({
+        message: "Donation received!",
+        user: user.name,
+        donation: user.donationAmount,
+      });
   });
 });
 
-connectDB();
 app.listen(3001);
