@@ -11,6 +11,7 @@ const mongodbPassword = process.env.MONGODB_PASSWORD;
 const uri = `mongodb+srv://Cstark:${mongodbPassword}@cluster0.jylys.mongodb.net/Donation_Tracker?retryWrites=true&w=majority`;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
+// mongoose.set("returnOriginal", false);
 
 module.exports = connectDB = async () => {
   try {
@@ -36,6 +37,40 @@ app.post("/donations", async (req, res) => {
     discordId: id,
     donationAmount: donation,
   });
+
+  let discordUser = new userModel({
+    name: user,
+    discordId: id,
+    totalDonated: donation,
+  });
+
+  try {
+    userModel.exists({ discordId: id }, async function (err, result) {
+      if (err) {
+        res.send(err);
+        console.log(err);
+      }
+      if (result === false || result === null) {
+        await discordUser.save((err, user) => {
+          console.log("this is the user", user);
+
+          if (err) console.log(err);
+        });
+      } else {
+        userModel.findByIdAndUpdate(
+          { _id: result._id },
+          { totalDonated: donation },
+          function (err, result) {
+            if (err) console.log(err);
+            else console.log("this is the updated data:", result);
+          }
+        );
+        console.log("user exists");
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 
   await userDonation.save((err, user) => {
     if (err) console.log(err);
