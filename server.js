@@ -87,9 +87,12 @@ app.post("/donations", async (req, res) => {
 
 app.post("/donationtotals", async (req, res) => {
   userModel.find({ discordId: req.body.id }, function (err, data) {
-    if (err) console.log(err);
-    else {
-      res.status(201).send(data);
+    if (err) console.log("error");
+    else if (!data.length) {
+      console.log("shits empty");
+      res.status(404).send({ message: "User has not donated to the company!" });
+    } else {
+      return res.status(201).send(data);
     }
   });
 });

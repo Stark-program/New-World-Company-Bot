@@ -8,7 +8,7 @@ const client = new Discord.Client({
   partials: ["MESSAGE", "REACTION", "CHANNEL"],
 });
 
-const token = process.env.DEV_TOKEN;
+const token = process.env.BOT_TOKEN;
 /*---To get around heroku PORT error ---*/
 var express = require("express");
 var app = express();
