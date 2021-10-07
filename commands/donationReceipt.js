@@ -33,4 +33,26 @@ module.exports = {
         );
     } else return;
   },
+  async getUsertotal(message, args, Discord, client) {
+    message.mentions.users.forEach((user) => {
+      let discordId = user.id;
+
+      let serverUrl = "http://localhost:3001";
+
+      let userInfo = {
+        id: discordId,
+      };
+
+      axios.post(`${serverUrl}/donationtotals`, userInfo).then((res) => {
+        let user = res.data[0].name;
+        let totalDonations = res.data[0].totalDonated;
+
+        let embed = new Discord.MessageEmbed()
+          .setColor("#e42643")
+          .setTitle(`${user}'s Total donation amount!\n\n`)
+          .setDescription(`${totalDonations} 🪙's`);
+        message.channel.send(embed);
+      });
+    });
+  },
 };

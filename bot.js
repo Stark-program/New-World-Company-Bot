@@ -40,6 +40,9 @@ client.on("message", (message) => {
   if (command === "donation") {
     donationReceipt.execute(message, args, Discord, client);
   }
+  if (command === "donation-total") {
+    donationReceipt.getUsertotal(message, args, Discord, client);
+  }
 });
 client.once("ready", (message) => {
   skillSelection.reactionListener(message, client);

@@ -85,4 +85,13 @@ app.post("/donations", async (req, res) => {
   });
 });
 
+app.post("/donationtotals", async (req, res) => {
+  userModel.find({ discordId: req.body.id }, function (err, data) {
+    if (err) console.log(err);
+    else {
+      res.status(201).send(data);
+    }
+  });
+});
+
 app.listen(3001);
