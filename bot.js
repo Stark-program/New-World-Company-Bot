@@ -8,7 +8,7 @@ const client = new Discord.Client({
   partials: ["MESSAGE", "REACTION", "CHANNEL"],
 });
 
-const token = process.env.DEV_TOKEN;
+const token = process.env.BOT_TOKEN;
 /*---To get around heroku PORT error ---*/
 var express = require("express");
 var app = express();
@@ -42,6 +42,9 @@ client.on("message", (message) => {
   }
   if (command === "donation-total") {
     donationReceipt.getUsertotal(message, args, Discord, client);
+  }
+  if (command === "donation-leaderboard") {
+    donationReceipt.getLeaderboard(message, args, Discord, client);
   }
 });
 client.once("ready", (message) => {

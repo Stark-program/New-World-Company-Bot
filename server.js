@@ -8,7 +8,7 @@ const userModel = require("./Schemas/userSchema");
 const donationSchema = require("./Schemas/donationSchema");
 
 const mongodbPassword = process.env.MONGODB_PASSWORD;
-const uri = `mongodb+srv://Cstark:${mongodbPassword}@cluster0.jylys.mongodb.net/Donation_Tracker?retryWrites=true&w=majority`;
+const uri = process.env.MONGODB_PRODUCTION_URL;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 mongoose.set("returnOriginal", false);
@@ -89,11 +89,25 @@ app.post("/donationtotals", async (req, res) => {
   userModel.find({ discordId: req.body.id }, function (err, data) {
     if (err) console.log("error");
     else if (!data.length) {
-      console.log("shits empty");
       res.status(404).send({ message: "User has not donated to the company!" });
     } else {
       return res.status(201).send(data);
     }
+  });
+});
+
+app.get("/donationleaderboard", async (req, res) => {
+  const leaders = {};
+  userModel.find({}, function (err, users) {
+    if (err) {
+      console.log(err);
+    } else {
+      users.forEach((user) => {
+        leaders[user.name] = user.totalDonated;
+      });
+    }
+
+    res.status(201).json(leaders);
   });
 });
 

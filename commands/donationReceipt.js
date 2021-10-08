@@ -6,7 +6,7 @@ module.exports = {
   description:
     "New world does not offer in game tracking of who donates to the company. This command, when used, will allow users to track their donations. Not automatically, unfortunatley, but they will be able to command the bot to track how much they donated, when, and the total amount in which they have donated.",
   async execute(message, args, Discord, client) {
-    let textChannel = process.env.DEV_GENERAL_TEXT_CHANNEL;
+    let textChannel = process.env.DONATION_RECEIPT_CHANNEL_ID;
     let serverUrl = "http://localhost:3001";
     let donationNumber = parseFloat(args);
     if (message.channel.id === textChannel) {
@@ -34,7 +34,7 @@ module.exports = {
     } else return;
   },
   async getUsertotal(message, args, Discord, client) {
-    let textChannel = process.env.DEV_GENERAL_TEXT_CHANNEL;
+    let textChannel = process.env.DONATION_RECEIPT_CHANNEL_ID;
     function run(user) {
       let discordId = user.id;
 
@@ -69,5 +69,45 @@ module.exports = {
         run(message.author);
       }
     }
+  },
+  async getLeaderboard(message, args, Discord, client) {
+    let textChannel = process.env.DONATION_RECEIPT_CHANNEL_ID;
+    let serverUrl = "http://localhost:3001";
+    if (message.channel.id === textChannel) {
+      axios
+        .get(`${serverUrl}/donationleaderboard`)
+        .then((res) => {
+          let resData = Object.entries(res.data).sort((a, b) => {
+            return b[1] - a[1];
+          });
+          if (resData.length > 5) {
+            let str = ``;
+            let count = 0;
+            let topLeaders = resData.slice(0, 5);
+            topLeaders.forEach((user) => {
+              str += `#${(count += 1)} ${user[0]}: ${user[1]}\n\n`;
+            });
+            let embed = new Discord.MessageEmbed()
+              .setColor("#e42643")
+              .setTitle(`Top donators for Touching Tips!\n\n`)
+              .setDescription(str);
+            message.channel.send(embed);
+          } else {
+            let str = ``;
+            let count = 0;
+            resData.forEach((user) => {
+              str += `#${(count += 1)} ${user[0]}: ${user[1]}\n\n`;
+            });
+            let embed = new Discord.MessageEmbed()
+              .setColor("#e42643")
+              .setTitle(`Top donators for Touching Tips!\n\n`)
+              .setDescription(str);
+            message.channel.send(embed);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else return;
   },
 };
