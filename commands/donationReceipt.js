@@ -6,7 +6,7 @@ module.exports = {
   description:
     "New world does not offer in game tracking of who donates to the company. This command, when used, will allow users to track their donations. Not automatically, unfortunatley, but they will be able to command the bot to track how much they donated, when, and the total amount in which they have donated.",
   async execute(message, args, Discord, client) {
-    let textChannel = process.env.DONATION_RECEIPT_CHANNEL_ID;
+    let textChannel = process.env.DEV_GENERAL_TEXT_CHANNEL;
     let serverUrl = "http://localhost:3001";
     let donationNumber = parseFloat(args);
     if (message.channel.id === textChannel) {
@@ -34,7 +34,7 @@ module.exports = {
     } else return;
   },
   async getUsertotal(message, args, Discord, client) {
-    let textChannel = process.env.DONATION_RECEIPT_CHANNEL_ID;
+    let textChannel = process.env.DEV_GENERAL_TEXT_CHANNEL;
     function run(user) {
       let discordId = user.id;
 
