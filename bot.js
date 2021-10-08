@@ -43,6 +43,9 @@ client.on("message", (message) => {
   if (command === "donation-total") {
     donationReceipt.getUsertotal(message, args, Discord, client);
   }
+  if (command === "donation-leaderboard") {
+    donationReceipt.getLeaderboard(message, args, Discord, client);
+  }
 });
 client.once("ready", (message) => {
   skillSelection.reactionListener(message, client);

@@ -70,4 +70,44 @@ module.exports = {
       }
     }
   },
+  async getLeaderboard(message, args, Discord, client) {
+    let textChannel = process.env.DONATION_RECEIPT_CHANNEL_ID;
+    let serverUrl = "http://localhost:3001";
+    if (message.channel.id === textChannel) {
+      axios
+        .get(`${serverUrl}/donationleaderboard`)
+        .then((res) => {
+          let resData = Object.entries(res.data).sort((a, b) => {
+            return b[1] - a[1];
+          });
+          if (resData.length > 5) {
+            let str = ``;
+            let count = 0;
+            let topLeaders = resData.slice(0, 5);
+            topLeaders.forEach((user) => {
+              str += `#${(count += 1)} ${user[0]}: ${user[1]}\n\n`;
+            });
+            let embed = new Discord.MessageEmbed()
+              .setColor("#e42643")
+              .setTitle(`Top donators for Touching Tips!\n\n`)
+              .setDescription(str);
+            message.channel.send(embed);
+          } else {
+            let str = ``;
+            let count = 0;
+            resData.forEach((user) => {
+              str += `#${(count += 1)} ${user[0]}: ${user[1]}\n\n`;
+            });
+            let embed = new Discord.MessageEmbed()
+              .setColor("#e42643")
+              .setTitle(`Top donators for Touching Tips!\n\n`)
+              .setDescription(str);
+            message.channel.send(embed);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else return;
+  },
 };
