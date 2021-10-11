@@ -8,7 +8,7 @@ const client = new Discord.Client({
   partials: ["MESSAGE", "REACTION", "CHANNEL"],
 });
 
-const token = process.env.BOT_TOKEN;
+const token = process.env.DEV_TOKEN;
 /*---To get around heroku PORT error ---*/
 var express = require("express");
 var app = express();
@@ -38,6 +38,7 @@ client.on("message", (message) => {
     skillSelection.execute(message, args, Discord, client);
   }
   if (command === "donation") {
+    client.users.cache.get(`${process.env.SERVER_OWNER_ID}`).send("test");
     donationReceipt.execute(message, args, Discord, client);
   }
   if (command === "donation-total") {
@@ -48,8 +49,8 @@ client.on("message", (message) => {
   }
 });
 client.once("ready", (message) => {
-  skillSelection.reactionListener(message, client);
-  reactionRoles.reactionListener(message, client);
+  // skillSelection.reactionListener(message, client);
+  // reactionRoles.reactionListener(message, client);
   connectToDatabase();
   console.log("Ready!");
 });
