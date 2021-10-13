@@ -57,21 +57,7 @@ app.post("/donations", async (req, res) => {
         await discordUser.save((err, user) => {
           if (err) console.log(err);
         });
-      } else {
-        userModel.find({ _id: result._id }, function (err, result) {
-          if (err) console.log(err);
-          else {
-            let usersTotalDonated = result[0].totalDonated;
-            userModel.updateOne(
-              { discordId: id },
-              { totalDonated: usersTotalDonated + donation },
-              function (err, doc) {
-                if (err) console.log(err);
-              }
-            );
-          }
-        });
-      }
+      } else return;
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -112,6 +98,20 @@ app.get("/donationleaderboard", async (req, res) => {
 
     res.status(201).json(leaders);
   });
+});
+
+app.post("/approved", async (req, res) => {
+  let messageId = req.body.messageId;
+  try {
+    let donationUpdate = await donationSchema.findOne({ messageId: messageId });
+    let user = await userModel.findOne({ discordId: donationUpdate.discordId });
+    donationUpdate.approved = true;
+    donationUpdate.save();
+    user.totalDonated += donationUpdate.donationAmount;
+    user.save();
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 app.listen(3001);

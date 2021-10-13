@@ -6,7 +6,6 @@ module.exports = {
   description:
     "New world does not offer in game tracking of who donates to the company. This command, when used, will allow users to track their donations. Not automatically, unfortunatley, but they will be able to command the bot to track how much they donated, when, and the total amount in which they have donated.",
   async execute(message, args, Discord, client) {
-    console.log("this is the message id", message.id);
     let textChannel = process.env.DEV_GENERAL_TEXT_CHANNEL;
     let serverUrl = "http://localhost:3001";
     let donationNumber = parseFloat(args);
@@ -116,10 +115,22 @@ module.exports = {
     } else return;
   },
   async donationReaction(message, client) {
+    let acceptedEmoji = "✅";
     let channel = process.env.DEV_GENERAL_TEXT_CHANNEL;
     client.on("messageReactionAdd", async (reaction, user) => {
       if (reaction.message.channel.id === channel) {
-        console.log(reaction);
+        if (reaction.emoji.name === acceptedEmoji) {
+          let serverUrl = "http://localhost:3001";
+          let messageId = { messageId: reaction.message.id };
+          axios
+            .post(`${serverUrl}/approved`, messageId)
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
       }
     });
   },
