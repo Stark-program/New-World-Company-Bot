@@ -7,7 +7,7 @@ const app = express();
 const userModel = require("./Schemas/userSchema");
 const donationSchema = require("./Schemas/donationSchema");
 
-const uri = process.env.MONGODB_DEV_URL;
+const uri = process.env.MONGODB_PRODUCTION_URL;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 mongoose.set("returnOriginal", false);
