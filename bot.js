@@ -38,7 +38,6 @@ client.on("message", (message) => {
     skillSelection.execute(message, args, Discord, client);
   }
   if (command === "donation") {
-    client.users.cache.get(`${process.env.SERVER_OWNER_ID}`).send("test");
     donationReceipt.execute(message, args, Discord, client);
   }
   if (command === "donation-total") {
@@ -51,7 +50,9 @@ client.on("message", (message) => {
 client.once("ready", (message) => {
   // skillSelection.reactionListener(message, client);
   // reactionRoles.reactionListener(message, client);
+  donationReceipt.donationReaction(message, client);
   connectToDatabase();
+
   console.log("Ready!");
 });
 client.login(token);

@@ -6,6 +6,7 @@ module.exports = {
   description:
     "New world does not offer in game tracking of who donates to the company. This command, when used, will allow users to track their donations. Not automatically, unfortunatley, but they will be able to command the bot to track how much they donated, when, and the total amount in which they have donated.",
   async execute(message, args, Discord, client) {
+    console.log("this is the message id", message.id);
     let textChannel = process.env.DEV_GENERAL_TEXT_CHANNEL;
     let serverUrl = "http://localhost:3001";
     let donationNumber = parseFloat(args);
@@ -18,6 +19,8 @@ module.exports = {
           name: user,
           discordId: user_id,
           donationAmount: donationNumber,
+          approved: false,
+          messageId: message.id,
         };
 
         axios.post(`${serverUrl}/donations`, userDonation).then((res) => {
@@ -35,6 +38,7 @@ module.exports = {
   },
   async getUsertotal(message, args, Discord, client) {
     let textChannel = process.env.DEV_GENERAL_TEXT_CHANNEL;
+
     function run(user) {
       let discordId = user.id;
 
@@ -61,7 +65,8 @@ module.exports = {
         });
     }
     if (message.channel.id === textChannel) {
-      if (Object.keys(message.mentions.users).length > 0) {
+      let stored = message.mentions.users.entries().next().value;
+      if (stored) {
         message.mentions.users.forEach((user) => {
           run(user);
         });
@@ -109,5 +114,13 @@ module.exports = {
           console.log(err);
         });
     } else return;
+  },
+  async donationReaction(message, client) {
+    let channel = process.env.DEV_GENERAL_TEXT_CHANNEL;
+    client.on("messageReactionAdd", async (reaction, user) => {
+      if (reaction.message.channel.id === channel) {
+        console.log(reaction);
+      }
+    });
   },
 };

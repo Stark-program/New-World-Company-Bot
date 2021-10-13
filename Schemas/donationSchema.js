@@ -6,6 +6,8 @@ const donationSchema = new Schema({
   name: String,
   discordId: Number,
   donationAmount: Number,
+  approved: Boolean,
+  messageId: Number,
 });
 
 const donation_model = mongoose.model(donations, donationSchema);

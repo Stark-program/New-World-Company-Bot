@@ -30,11 +30,15 @@ app.post("/donations", async (req, res) => {
   let user = req.body.name;
   let id = req.body.discordId;
   let donation = req.body.donationAmount;
+  let approvedDonation = req.body.approved;
+  let messageId = req.body.messageId;
 
   let userDonation = new donationSchema({
     name: user,
     discordId: id,
     donationAmount: donation,
+    approved: approvedDonation,
+    messageId: messageId,
   });
 
   let discordUser = new userModel({
