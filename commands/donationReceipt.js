@@ -18,6 +18,8 @@ module.exports = {
           name: user,
           discordId: user_id,
           donationAmount: donationNumber,
+          approved: false,
+          messageId: message.id,
         };
 
         axios.post(`${serverUrl}/donations`, userDonation).then((res) => {
@@ -35,6 +37,7 @@ module.exports = {
   },
   async getUsertotal(message, args, Discord, client) {
     let textChannel = process.env.DONATION_RECEIPT_CHANNEL_ID;
+
     function run(user) {
       let discordId = user.id;
 
@@ -61,7 +64,8 @@ module.exports = {
         });
     }
     if (message.channel.id === textChannel) {
-      if (Object.keys(message.mentions.users).length > 0) {
+      let stored = message.mentions.users.entries().next().value;
+      if (stored) {
         message.mentions.users.forEach((user) => {
           run(user);
         });
@@ -109,5 +113,25 @@ module.exports = {
           console.log(err);
         });
     } else return;
+  },
+  async donationReaction(message, client) {
+    let acceptedEmoji = "✅";
+    let channel = process.env.DONATION_RECEIPT_CHANNEL_ID;
+    client.on("messageReactionAdd", async (reaction, user) => {
+      if (reaction.message.channel.id === channel) {
+        if (reaction.emoji.name === acceptedEmoji) {
+          let serverUrl = "http://localhost:3001";
+          let messageId = { messageId: reaction.message.id };
+          axios
+            .post(`${serverUrl}/approved`, messageId)
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      }
+    });
   },
 };

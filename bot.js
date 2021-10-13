@@ -50,7 +50,9 @@ client.on("message", (message) => {
 client.once("ready", (message) => {
   skillSelection.reactionListener(message, client);
   reactionRoles.reactionListener(message, client);
+  donationReceipt.donationReaction(message, client);
   connectToDatabase();
+
   console.log("Ready!");
 });
 client.login(token);
