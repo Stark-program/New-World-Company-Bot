@@ -101,7 +101,9 @@ app.post("/approved", async (req, res) => {
             if (err) console.log(err);
           });
         } else {
-          let user = userModel.findOne({ discordId: donationUpdate.discordId });
+          let user = await userModel.findOne({
+            discordId: donationUpdate.discordId,
+          });
           donationUpdate.approved = true;
           donationUpdate.save();
           user.totalDonated += donationUpdate.donationAmount;
