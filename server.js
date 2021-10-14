@@ -41,28 +41,6 @@ app.post("/donations", async (req, res) => {
     messageId: messageId,
   });
 
-  let discordUser = new userModel({
-    name: user,
-    discordId: id,
-    totalDonated: donation,
-  });
-
-  try {
-    userModel.exists({ discordId: id }, async function (err, result) {
-      if (err) {
-        res.send(err);
-        console.log(err);
-      }
-      if (result === false || result === null) {
-        await discordUser.save((err, user) => {
-          if (err) console.log(err);
-        });
-      } else return;
-    });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-
   await userDonation.save((err, user) => {
     if (err) console.log(err);
     else
@@ -102,13 +80,35 @@ app.get("/donationleaderboard", async (req, res) => {
 
 app.post("/approved", async (req, res) => {
   let messageId = req.body.messageId;
+
   try {
     let donationUpdate = await donationSchema.findOne({ messageId: messageId });
-    let user = await userModel.findOne({ discordId: donationUpdate.discordId });
-    donationUpdate.approved = true;
-    donationUpdate.save();
-    user.totalDonated += donationUpdate.donationAmount;
-    user.save();
+
+    let discordUser = new userModel({
+      name: donationUpdate.name,
+      discordId: donationUpdate.discordId,
+      totalDonated: donationUpdate.donationAmount,
+    });
+    userModel.exists(
+      { discordId: donationUpdate.discordId },
+      async function (err, result) {
+        if (err) {
+          res.send(err);
+          console.log(err);
+        }
+        if (result === false || result === null) {
+          await discordUser.save((err, user) => {
+            if (err) console.log(err);
+          });
+        } else {
+          let user = userModel.findOne({ discordId: donationUpdate.discordId });
+          donationUpdate.approved = true;
+          donationUpdate.save();
+          user.totalDonated += donationUpdate.donationAmount;
+          user.save();
+        }
+      }
+    );
   } catch (err) {
     console.log(err);
   }
